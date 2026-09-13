@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Resize Your Image — Free Image Tools</title>
+<style>
+:root{--pink:#e83e68;--dark:#172033;--muted:#697586;--bg:#f7f8fb;--card:#fff;--line:#e7eaf0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial;color:var(--dark)}
+header{height:70px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(20px,6vw)}
+.logo{font-weight:900;font-size:25px;letter-spacing:-.8px}.logo b{color:var(--pink)}nav a{margin-left:25px;color:#596579;text-decoration:none;font-weight:650}
+.hero{text-align:center;padding:55px 18px 22px}.hero h1{font-size:44px;line-height:1.08;margin:0 0 12px;letter-spacing:-1.6px}.hero p{margin:0;color:var(--muted);font-size:17px}
+.tools{max-width:1120px;margin:24px auto 60px;padding:0 18px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.tool{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;cursor:pointer;transition:.18s}.tool:hover,.tool.active{transform:translateY(-2px);border-color:#f09ab0;box-shadow:0 9px 25px #1823380b}.tool .ico{font-size:28px}.tool h3{margin:10px 0 5px}.tool p{margin:0;color:var(--muted);font-size:13px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:25px;box-shadow:0 10px 35px #1720330b}
+.drop{border:2px dashed #cdd4df;border-radius:16px;padding:43px 20px;text-align:center;cursor:pointer;background:#fbfcfe}.drop:hover{border-color:var(--pink);background:#fff8fa}.drop .big{font-size:46px}.drop h2{margin:8px 0}.drop p{color:var(--muted);margin:0 0 17px}
+input[type=file]{display:none}.btn{border:0;border-radius:10px;padding:12px 19px;font-weight:800;cursor:pointer;background:var(--pink);color:#fff}.btn.secondary{background:#edf0f5;color:#263247}.btn:disabled{opacity:.5;cursor:not-allowed}
+.preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-top:22px}.item{border:1px solid var(--line);border-radius:13px;padding:10px}.item img{width:100%;height:145px;object-fit:contain;border-radius:9px;background:#f2f4f7}.item .name{font-size:13px;font-weight:700;margin:8px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.options{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:20px}.field{background:#f8f9fb;padding:13px;border-radius:11px}.field label{display:block;font-size:13px;font-weight:800;margin-bottom:7px}.field input,.field select{width:100%;padding:10px;border:1px solid #d8dde6;border-radius:8px;background:#fff}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.status{margin-top:14px;color:var(--muted);font-size:14px}.hidden{display:none}
+footer{text-align:center;color:#7b8595;padding:28px;border-top:1px solid var(--line);background:#fff}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.options{grid-template-columns:1fr 1fr}.hero h1{font-size:35px}}
+@media(max-width:520px){nav{display:none}.grid{grid-template-columns:1fr 1fr}.options{grid-template-columns:1fr}.hero{padding-top:38px}}
+</style>
+</head>
+<body>
+<header><div class="logo">Resize <b>Your Image</b></div><nav><a href="#tools">Tools</a><a href="#privacy">Privacy</a></nav></header>
+<section class="hero"><h1>Resize Your Image</h1><p>Resize, compress, convert images and create PDFs — quickly and easily.</p></section>
+
+<main class="tools" id="tools">
+<div class="grid">
+<div class="tool active" data-mode="pdf"><div class="ico">📄</div><h3>JPG to PDF</h3><p>Combine images into one PDF</p></div>
+<div class="tool" data-mode="resize"><div class="ico">📐</div><h3>Resize Image</h3><p>Change image dimensions</p></div>
+<div class="tool" data-mode="compress"><div class="ico">🗜️</div><h3>Compress Image</h3><p>Reduce image file size</p></div>
+<div class="tool" data-mode="convert"><div class="ico">🔄</div><h3>Convert Image</h3><p>JPG, PNG and WEBP</p></div>
+</div>
+
+<section class="panel">
+<label class="drop" for="files"><div class="big">🖼️</div><h2>Select images</h2><p>JPG, PNG or WEBP • Multiple files supported</p><button class="btn" type="button" onclick="document.getElementById('files').click()">Choose images</button></label>
+<input id="files" type="file" accept="image/*" multiple>
+
+<div id="pdfOptions" class="options">
+<div class="field"><label>Page size</label><select id="page"><option value="a4">A4</option><option value="letter">Letter</option><option value="fit">Fit to image</option></select></div>
+<div class="field"><label>Orientation</label><select id="orientation"><option value="auto">Auto</option><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></div>
+<div class="field"><label>Image placement</label><select id="fit"><option value="contain">Fit inside page</option><option value="cover">Fill page</option></select></div>
+</div>
+
+<div id="resizeOptions" class="options hidden">
+<div class="field"><label>Width (px)</label><input id="w" type="number" min="1" placeholder="1200"></div>
+<div class="field"><label>Height (px)</label><input id="h" type="number" min="1" placeholder="800"></div>
+<div class="field"><label><input id="ratio" type="checkbox" checked> Keep aspect ratio</label></div>
+</div>
+
+<div id="imageOptions" class="options hidden">
+<div class="field"><label>Quality</label><input id="quality" type="range" min="20" max="100" value="80"><span id="qv">80%</span></div>
+<div class="field"><label>Output format</label><select id="format"><option value="image/jpeg">JPG</option><option value="image/png">PNG</option><option value="image/webp">WEBP</option></select></div>
+<div class="field"><label>Max width (px)</label><input id="maxw" type="number" min="1" placeholder="Optional"></div>
+</div>
+
+<div class="actions"><button id="action" class="btn">Create PDF</button><button id="clear" class="btn secondary">Clear</button></div>
+<div id="status" class="status"></div><div id="preview" class="preview"></div>
+</section>
+</main>
+
+<footer id="privacy">🔒 Your images are processed in your browser. They are not uploaded by this page.</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+let files=[],mode='pdf';
+const $=x=>document.getElementById(x);
+document.querySelectorAll('.tool').forEach(t=>t.onclick=()=>setMode(t.dataset.mode,t));
+function setMode(m,el){mode=m;document.querySelectorAll('.tool').forEach(x=>x.classList.remove('active'));el.classList.add('active');
+$('pdfOptions').classList.toggle('hidden',m!=='pdf');$('resizeOptions').classList.toggle('hidden',m!=='resize');$('imageOptions').classList.toggle('hidden',m==='pdf');
+$('action').textContent=m==='pdf'?'Create PDF':m==='resize'?'Resize & Download':m==='compress'?'Compress & Download':'Convert & Download';}
+$('files').onchange=e=>{files=[...e.target.files];render()};
+function render(){let p=$('preview');p.innerHTML='';files.forEach((f,i)=>{let u=URL.createObjectURL(f),d=document.createElement('div');d.className='item';d.innerHTML='<img src="'+u+'"><div class="name">'+(i+1)+'. '+f.name+'</div><button class="btn secondary" style="width:100%;padding:8px" onclick="removeFile('+i+')">Remove</button>';p.appendChild(d)});$('status').textContent=files.length?files.length+' image(s) selected.':'No images selected.'}
+function removeFile(i){files.splice(i,1);render()}
+$('clear').onclick=()=>{files=[];$('files').value='';render()};
+$('quality').oninput=()=>{$('qv').textContent=$('quality').value+'%'};
+$('action').onclick=async()=>{if(!files.length){$('status').textContent='Please select at least one image.';return}try{if(mode==='pdf')await pdf();else await imageJob()}catch(e){console.error(e);$('status').textContent='Something went wrong. Please try again.'}}
+function load(f){return new Promise((ok,no)=>{let im=new Image();im.onload=()=>ok(im);im.onerror=no;im.src=URL.createObjectURL(f)})}
+function download(url,name){let a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove()}
+async function imageJob(){let out=$('format').value,quality=+$('quality').value/100,maxw=+$('maxw').value||0;
+for(let n=0;n<files.length;n++){let im=await load(files[n]),w=im.naturalWidth,h=im.naturalHeight;
+if(mode==='resize'){w=+$('w').value||w;h=+$('h').value||h;if($('ratio').checked){h=Math.round(w*im.naturalHeight/im.naturalWidth)}}
+if(mode==='compress'&&maxw&&w>maxw){h=Math.round(h*maxw/w);w=maxw}
+let c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);download(c.toDataURL(out,quality),(mode==='compress'?'compressed-':mode==='convert'?'converted-':'resized-')+(n+1)+'.'+(out==='image/png'?'png':out==='image/webp'?'webp':'jpg'));$('status').textContent='Processed '+(n+1)+'/'+files.length+'...'}$('status').textContent='Done — your files are ready.'}
+async function pdf(){if(!window.jspdf){$('status').textContent='PDF library could not load. Check internet connection and try again.';return}
+const {jsPDF}=window.jspdf;let doc=null;for(let n=0;n<files.length;n++){let im=await load(files[n]),ori=$('orientation').value;if(ori==='auto')ori=im.naturalWidth>=im.naturalHeight?'landscape':'portrait';
+let ps=$('page').value;
+if(n===0){doc=ps==='fit'?new jsPDF({orientation:ori,unit:'mm',format:[im.naturalWidth*.264583,im.naturalHeight*.264583]}):new jsPDF({orientation:ori,unit:'mm',format:ps==='letter'?'letter':'a4'})}
+else{if(ps==='fit')doc.addPage([im.naturalWidth*.264583,im.naturalHeight*.264583],ori);else doc.addPage(ps==='letter'?'letter':'a4',ori)}
+let pw=doc.internal.pageSize.getWidth(),ph=doc.internal.pageSize.getHeight(),iw=im.naturalWidth,ih=im.naturalHeight,scale=$('fit').value==='cover'?Math.max(pw/iw,ph/ih):Math.min(pw/iw,ph/ih),w=iw*scale,h=ih*scale;
+doc.addImage(im,'JPEG',(pw-w)/2,(ph-h)/2,w,h,undefined,'FAST');$('status').textContent='Creating PDF '+(n+1)+'/'+files.length+'...'}
+doc.save('resize-your-image.pdf');$('status').textContent='Done — PDF downloaded.'}
+render();
+</script>
+</body></html>
